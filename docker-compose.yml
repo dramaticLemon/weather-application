@@ -1,5 +1,5 @@
 services:
-  postgres:
+  postgres-service:
     image: postgres:16
     container_name: postgres-container
     environment:
@@ -10,8 +10,15 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - weather-app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app-database"] 
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  pgadmin:
+  pgadmin-service:
     image: dpage/pgadmin4
     container_name: pgadmin-container
     environment:
@@ -20,15 +27,34 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      - postgres
+      - postgres-service
+    networks:
+      - weather-app-network
 
-  app:
+  app-service:
     build: .
     container_name: application-container
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      - postgres-service
+    networks:
+      - weather-app-network
+
+  flyway-migration-service:
+    image: flyway/flyway:11.10.3
+    container_name: flyway-container
+    volumes:
+      - ./flyway-conf:/flyway/conf
+      - ./db/migrations:/flyway/sql/db/migration
+    networks:
+      - weather-app-network
+    depends_on:
+      postgres-service:
+        condition: service_healthy
 
 volumes:
   pgdata:
+networks:
+  weather-app-network:
+    driver: bridge
