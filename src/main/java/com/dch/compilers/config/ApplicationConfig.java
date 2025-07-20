@@ -11,12 +11,15 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
+import io.micrometer.common.lang.NonNull;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.dch.compilers.controller")
 public class ApplicationConfig implements WebMvcConfigurer{
 
 	@Override
+	@NonNull
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/");
