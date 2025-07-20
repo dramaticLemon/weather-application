@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -25,27 +26,27 @@ public class Session {
 	@Column(name="session_id", updatable=false, nullable=false)
 	private UUID id;
 
-	@Column(name="user_id")
 	@OneToOne
+	@MapsId
 	@JoinColumn(name="user_id", nullable=false)
-	private long user_id;
+	private User user;
 	
 	@Column(name="expires_at")
 	private LocalDateTime expiresAt;
 
 	public Session() {}
 
-	public Session(long user_id, LocalDateTime expiresAt) {
-		this.user_id = user_id;
+	public Session(User user, LocalDateTime expiresAt) {
+		this.user = user;
 		this.expiresAt = expiresAt;
 	}
 
-	public long getUser_id() {
-		return user_id;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser_id(long user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public LocalDateTime getExpiresAt() {

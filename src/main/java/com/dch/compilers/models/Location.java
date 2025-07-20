@@ -1,12 +1,14 @@
 package com.dch.compilers.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,10 +23,9 @@ public class Location {
 	@Column(name="name_location")
 	private String name;
 
-	@Column(name="user_id")
-	@OneToMany()
-	@JoinColumn(name="user_id", nullable=false)
-	private Long userId;
+
+	@ManyToMany(mappedBy="locations")
+	private Set<User> users = new HashSet<>();
 
 	@Column(name="latitude")
 	private Double latitude;
@@ -34,9 +35,8 @@ public class Location {
 
 	public Location() {}
 
-	public Location(String name, Long userId, Double latitude, Double longitude) {
+	public Location(String name, Double latitude, Double longitude) {
 		this.name = name;
-		this.userId = userId;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
@@ -49,13 +49,13 @@ public class Location {
 		this.name = name;
 	}
 
-	public Long getUserId() {
-		return userId;
-	}
+	public Set<User> getUsers() {
+			return users;
+		}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
 	public Double getLatitude() {
 		return latitude;

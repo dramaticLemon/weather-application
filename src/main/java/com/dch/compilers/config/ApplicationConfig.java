@@ -3,6 +3,7 @@ package com.dch.compilers.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,7 +16,13 @@ import io.micrometer.common.lang.NonNull;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.dch.compilers.controller")
+@EnableTransactionManagement
+@ComponentScan(basePackages = {
+	"com.dch.compilers.controller",
+	"com.dch.compilers.services",
+	"com.dch.compilers.repositories",
+	}
+)
 public class ApplicationConfig implements WebMvcConfigurer{
 
 	@Override

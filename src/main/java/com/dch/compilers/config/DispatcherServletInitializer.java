@@ -7,7 +7,7 @@ public class DispatcherServletInitializer extends
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {};
+		return new Class[] {JpaConfig.class};
 	}
 
 	@Override

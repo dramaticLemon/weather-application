@@ -43,6 +43,6 @@ flyway-info:
 # проверить корекность миграций
 flyway-validate:
 	docker-compose run --rm flyway-migration-service validate
-# создать базовую тосчку
+# создать базовую точку
 flyway-baseline:
 	docker-compose run --rm flyway-migration-service baseline
