@@ -1,0 +1,14 @@
+package com.dch.compilers.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class LoginController {
+	
+	@GetMapping("/auth/sign-in")
+	public String sayHello(Model model) {
+		return "sign-in";
+	}
+}
