@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dch.compilers.dto.UserDto;
 import com.dch.compilers.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
+
 @Controller
 public class RegistrationController {
 
@@ -21,10 +24,11 @@ public class RegistrationController {
 		return "sign-up";
 	}
 
-	@PostMapping("auth/sign-up")
+	@PostMapping("/auth/sign-up")
 	public String processRegistration(
 		@RequestParam("username") String username,
 		@RequestParam("password") String password,
+		HttpSession httpSession,
 		Model model) {
 
 		UserDto userDto = new UserDto.Builder()
@@ -33,7 +37,7 @@ public class RegistrationController {
 			.build();
 			
 		userService.registerUser(userDto);
-		return "home";
+		httpSession.setAttribute("username", username);
+		return "redirect:/dashboard";
 		}
-
 }

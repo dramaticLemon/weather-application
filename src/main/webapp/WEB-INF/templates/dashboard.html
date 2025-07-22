@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: common_header(~{::title},~{::link})">
+    <title>Главная страница</title>
+    <link rel="stylesheet" th:href="@{/static/style.css}">
+</head>
+<body>
+    <div th:replace="base :: layout(~{::main})">
+        <main>
+            <section>
+                <div class="d-flex my-4">
+                    <div class="input-group location-search-input-group me-3">
+                        <input class="form-control" type="text" name="name" placeholder="Enter location" required>
+                        <button class="btn btn-outline-secondary btn-sm clear-input-button" type="button"
+                                onclick="this.previousElementSibling.value=''">
+                            &times;
+                        </button>
+                    </div>
+                    <button class="btn btn-outline-success">Search</button>
+                </div>
+            </section>
+            <h1>Welcome to dashboard page!</h1>
+        </main>
+    </div>
+</body>
+</html>

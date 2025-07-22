@@ -31,16 +31,20 @@ public class Session {
 	@JoinColumn(name="user_id", nullable=false)
 	private User user;
 	
+	// время истечения сессии = создание сессии + N часов
 	@Column(name="expires_at")
 	private LocalDateTime expiresAt;
 
 	public Session() {}
 
 	public Session(User user, LocalDateTime expiresAt) {
+		this.id = UUID.randomUUID();
 		this.user = user;
 		this.expiresAt = expiresAt;
 	}
-
+	public UUID getId() {
+		return id;
+	}
 	public User getUser() {
 		return user;
 	}

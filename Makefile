@@ -13,7 +13,7 @@ build:
 docker-build: 
 	docker build -t $(IMAGE) .
 
-docker-stop:
+stop:
 	docker stop $(CONTAINER) 2>/dev/null || true
 
 docker-rm:
@@ -22,13 +22,13 @@ docker-rm:
 docker-run: docker-stop docker-rm
 	docker run -d -p $(PORT):8080 --name $(CONTAINER) $(IMAGE)
 
-compose-up:
+up:
 	docker-compose up -d --build
 
-compose-down:
+down:
 	docker-compose down
 
-run: build docker-build docker-run
+run: build up
 
 # flyway commands
 # запустить миграции
