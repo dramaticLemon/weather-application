@@ -10,7 +10,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -27,8 +26,7 @@ public class Session {
 	private UUID id;
 
 	@OneToOne
-	@MapsId
-	@JoinColumn(name="user_id", nullable=false)
+	@JoinColumn(name="user_id", nullable=false, unique=true)
 	private User user;
 	
 	// время истечения сессии = создание сессии + N часов
@@ -44,6 +42,7 @@ public class Session {
 	public UUID getId() {
 		return id;
 	}
+	
 	public User getUser() {
 		return user;
 	}
@@ -63,6 +62,10 @@ public class Session {
 	@Override
 	public String toString() {
 		return "Session [id=" + id + ", user=" + user + ", expiresAt=" + expiresAt + "]";
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 	
 	

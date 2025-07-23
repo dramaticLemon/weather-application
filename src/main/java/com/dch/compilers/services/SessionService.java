@@ -1,6 +1,8 @@
 package com.dch.compilers.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,4 +28,30 @@ public class SessionService {
 		Session session = new Session(user, expireAt);
 		return sessionRepsitory.save(session);
 	}
+
+	@Transactional
+	public Session createOrUpdateSession(User user) {
+		Optional<Session> existingSession = sessionRepsitory.findByUser(user);
+		Session session;
+		if (existingSession.isPresent()) {
+			session = existingSession.get();
+		} else {
+			session = new Session();
+			session.setUser(user);
+		}
+
+		session.setExpiresAt(LocalDateTime.now().plusHours(sessinExpireHours));
+
+		return sessionRepsitory.save(session);
+	}
+
+	// найти сессию по UUID корорый был записан в куки
+	public Optional<Session> findByUUID(String sessionId) {
+		try {
+			return sessionRepsitory.findById(UUID.fromString(sessionId));
+		} catch (IllegalArgumentException e) {
+			return Optional.empty();
+		}
+	}
+
 }

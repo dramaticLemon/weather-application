@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dch.compilers.dto.UserDto;
 import com.dch.compilers.models.Session;
-import com.dch.compilers.models.User;
-import com.dch.compilers.services.SessionService;
-import com.dch.compilers.services.UserService;
+import com.dch.compilers.services.AuthService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,10 +20,7 @@ import jakarta.servlet.http.HttpSession;
 public class RegistrationController {
 
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private SessionService sessionService;
+	private AuthService authService;
 
 	@GetMapping("/auth/sign-up")
 	public String register(Model model) {
@@ -39,20 +34,27 @@ public class RegistrationController {
 			model.addAttribute("error", "Passwords don't match, please try again.");
 			return "sign-up";
 		}
-
-		UserDto userDto = new UserDto.Builder()
+		try {
+			UserDto userDto = new UserDto.Builder()
 			.username(username)
 			.password(password)
 			.build();
 			
-		User user = userService.registerUser(userDto);
-		Session session = sessionService.registerSession(user);
+			Session createdSession = authService.registerNewUserAndCreateSession(userDto);
 
-		Cookie cookie = new Cookie("SESSION_ID", String.valueOf(session.getId()));
-		cookie.setHttpOnly(true);
-		cookie.setPath("/");
-		response.addCookie(cookie);
+			Cookie cookie = new Cookie("SESSION_ID", String.valueOf(createdSession.getId()));
+			cookie.setHttpOnly(true);
+			cookie.setPath("/");
+			response.addCookie(cookie);
 
-		return "redirect:/dashboard";
+			return "redirect:/dashboard";
+
+		} catch (IllegalArgumentException e) {
+			model.addAttribute("error", e.getMessage());
+            return "sign-up";
+		} catch (Exception e) {
+			model.addAttribute("error", "Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.");
+			return "sign-up";
 		}
+	}
 }

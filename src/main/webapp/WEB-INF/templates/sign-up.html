@@ -31,12 +31,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
-                    <input type="password" class="form-control" id="repeat-password" name="password" required value=""/>
+                    <input type="password" class="form-control" id="repeat-password" name="repeat-password" required value=""/>
                 </div>
 
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>
 
+                <!-- server error wrong password -->
+                <div id="server-error" class="text-danger mb-2">
+                <p th:if="${error}" th:text="${error}"></p>
+                </div>
+                
+                <!-- client error wrong password -->
                <div id="password-error" class="text-danger mb-2" style="display:none;"></div>
+
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
                 <p class="mt-2 text-center">Already have an account? <a href="/auth/sign-in">Sign in here</a></p>
             </form>
