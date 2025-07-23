@@ -20,18 +20,22 @@
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
-            <form action="/auth/sign-up" method="POST" class="mt-4">
+            <form action="/auth/sign-up" method="POST" th:object="${form}" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" name="username" required value=""/>
+                    <div th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required value=""/>
+                    <div th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
                     <input type="password" class="form-control" id="repeat-password" name="repeat-password" required value=""/>
+                    <div th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger" th:errors="*{repeatPassword}"></div>
+
                 </div>
 
                 <input type="hidden" name="redirect_to" value="http://localhost/"/>
