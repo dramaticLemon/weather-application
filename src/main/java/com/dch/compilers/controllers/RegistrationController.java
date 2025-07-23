@@ -1,5 +1,8 @@
 package com.dch.compilers.controllers;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,8 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class RegistrationController {
+
+	private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
 
 	@Autowired
 	private AuthService authService;
@@ -51,10 +56,11 @@ public class RegistrationController {
 
 		} catch (IllegalArgumentException e) {
 			model.addAttribute("error", e.getMessage());
+			log.debug(e.getMessage());
             return "sign-up";
-		} catch (Exception e) {
-			model.addAttribute("error", "Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.");
-			System.out.println(e);
+		} catch (ConstraintViolationException e) {
+			model.addAttribute("error", "User name is already taken");
+			log.debug("Diplicate username: {}", e.getMessage());
 			return "sign-up";
 		}
 	}

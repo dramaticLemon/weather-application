@@ -19,19 +19,17 @@ public class SessionService {
 
 	@Autowired
 	SessionRepository sessionRepository;
-
-	@Value("${session.expire.hours:1}")
-	private int sessinExpireHours;
-	
-	@Value("${session.expire.minutes:1}")
+		
+	@Value("${session.expire.minutes:30}")
 	private int sessionExpireMinutes;
+
+	private LocalDateTime getExpireTime() {
+		return  LocalDateTime.now().plus(sessionExpireMinutes, ChronoUnit.MINUTES);
+	}
 
 	@Transactional
 	public Session registerSession(User user) {
-		// LocalDateTime expireAt = LocalDateTime.now().plusHours(sessinExpireHours);
-		LocalDateTime expireAt = LocalDateTime.now().plus(sessionExpireMinutes, ChronoUnit.MINUTES);
-
-		Session session = new Session(user, expireAt);
+		Session session = new Session(user, getExpireTime());
 		return sessionRepository.save(session);
 	}
 
@@ -46,16 +44,14 @@ public class SessionService {
 			session.setUser(user);
 		}
 
-		// session.setExpiresAt(LocalDateTime.now().plusHours(sessinExpireHours));
-		session.setExpiresAt(LocalDateTime.now().plus(sessionExpireMinutes, ChronoUnit.MINUTES));
+		session.setExpiresAt(getExpireTime());
 
 		try {
 			return sessionRepository.save(session);
 		} catch (org.springframework.dao.DataIntegrityViolationException e) {
 			 return sessionRepository.findByUser(user)
-                               .orElseThrow(() -> new RuntimeException("Failed to retrieve existing session after integrity violation.", e));
+				.orElseThrow(() -> new RuntimeException("Failed to retrieve existing session after integrity violation.", e));
 		}
-		
 	}
 
 	public Optional<Session> findByUUID(String sessionId) {
