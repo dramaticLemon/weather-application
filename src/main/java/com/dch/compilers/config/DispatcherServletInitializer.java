@@ -1,6 +1,9 @@
 package com.dch.compilers.config;
 
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import jakarta.servlet.Filter;
 
 public class DispatcherServletInitializer extends 
 	AbstractAnnotationConfigDispatcherServletInitializer{
@@ -19,4 +22,10 @@ public class DispatcherServletInitializer extends
 	protected String[] getServletMappings() {
 		return new String[]{"/"};
 	}
+
+	@Override
+    protected Filter[] getServletFilters() {
+        return new Filter[] { new DelegatingFilterProxy("sessionValidationFilter") };
+    }
+	
 }

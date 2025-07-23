@@ -1,4 +1,4 @@
-package com.dch.compilers.controller;
+package com.dch.compilers.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

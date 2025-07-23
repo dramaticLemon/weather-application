@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -19,7 +20,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import jakarta.persistence.EntityManagerFactory;
 
 @Configuration
-
+@ComponentScan(basePackages = {
+    "com.dch.compilers.filters",
+    "com.dch.compilers.services",
+    "com.dch.compilers.repositories"
+})
 @PropertySource("classpath:database.properties")
 public class JpaConfig {
 	

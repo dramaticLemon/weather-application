@@ -18,9 +18,10 @@ import io.micrometer.common.lang.NonNull;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-	"com.dch.compilers.controller",
-	"com.dch.compilers.services",
-	"com.dch.compilers.repositories",
+	"com.dch.compilers.controllers",
+	"com.dch.compilers.filters",
+    "com.dch.compilers.services",
+    "com.dch.compilers.repositories"
 	}
 )
 public class ApplicationConfig implements WebMvcConfigurer{
@@ -56,4 +57,5 @@ public class ApplicationConfig implements WebMvcConfigurer{
 		resolver.setCharacterEncoding("UTF-8");
 		return resolver;
 	}
+
 }

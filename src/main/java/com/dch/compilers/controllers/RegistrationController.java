@@ -1,4 +1,4 @@
-package com.dch.compilers.controller;
+package com.dch.compilers.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +54,7 @@ public class RegistrationController {
             return "sign-up";
 		} catch (Exception e) {
 			model.addAttribute("error", "Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.");
+			System.out.println(e);
 			return "sign-up";
 		}
 	}

@@ -14,14 +14,18 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 @Repository
-public class SessionRepsitory {
+public class SessionRepository {
 
 	@PersistenceContext
 	EntityManager entityManager;
 
 	public Session save(Session session) {
-		entityManager.persist(session);
-		return session;
+		if (session.getId() == null || entityManager.find(Session.class, session.getId()) == null) {
+        entityManager.persist(session);
+        return session;
+		} else {
+			return entityManager.merge(session);
+		}
 	}
 
 	public Optional<Session> findByUser(User user) {
