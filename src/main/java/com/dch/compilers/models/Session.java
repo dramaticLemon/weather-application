@@ -38,7 +38,6 @@ public class Session {
 	public Session() {}
 
 	public Session(User user, LocalDateTime expiresAt) {
-		this.id = UUID.randomUUID();
 		this.user = user;
 		this.expiresAt = expiresAt;
 	}
@@ -60,5 +59,11 @@ public class Session {
 	public void setExpiresAt(LocalDateTime expiresAt) {
 		this.expiresAt = expiresAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Session [id=" + id + ", user=" + user + ", expiresAt=" + expiresAt + "]";
+	}
+	
 	
 }
