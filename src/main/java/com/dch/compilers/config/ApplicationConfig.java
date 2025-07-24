@@ -3,6 +3,8 @@ package com.dch.compilers.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -18,6 +20,7 @@ import io.micrometer.common.lang.NonNull;
 
 @Configuration
 @EnableWebMvc
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
 	"com.dch.compilers.controllers",
@@ -26,6 +29,7 @@ import io.micrometer.common.lang.NonNull;
     "com.dch.compilers.repositories"
 	}
 )
+@Import({JpaDevConfig.class, JpaProdConfig.class, JpaTestConfig.class}) 
 public class ApplicationConfig implements WebMvcConfigurer{
 	
 	@Bean

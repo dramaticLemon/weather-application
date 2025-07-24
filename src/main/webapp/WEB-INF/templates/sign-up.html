@@ -23,17 +23,17 @@
             <form action="/auth/sign-up" method="POST" th:object="${form}" class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required value=""/>
+                    <input type="text" class="form-control" id="username" th:field="*{username}" required value=""/>
                     <div th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required value=""/>
+                    <input type="password" class="form-control" id="password" th:field="*{password}"  required value=""/>
                     <div th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
-                    <input type="password" class="form-control" id="repeat-password" name="repeat-password" required value=""/>
+                    <input type="password" class="form-control" id="repeat-password" th:field="*{repeatPassword}"  required value=""/>
                     <div th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger" th:errors="*{repeatPassword}"></div>
 
                 </div>
@@ -45,8 +45,7 @@
                 <p th:if="${error}" th:text="${error}"></p>
                 </div>
                 
-                <!-- client error wrong password -->
-               <div id="password-error" class="text-danger mb-2" style="display:none;"></div>
+              
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
                 <p class="mt-2 text-center">Already have an account? <a href="/auth/sign-in">Sign in here</a></p>
@@ -54,22 +53,5 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.querySelector("form");
-        const errorDiv = document.getElementById("password-error");
-        form.addEventListener("submit", function(event) {
-            const password = document.getElementById("password").value;
-            const repeat = document.getElementById("repeat-password").value;
-            if (password !== repeat) {
-                event.preventDefault();
-                errorDiv.textContent = "Passwords don't match, please try again.";
-                errorDiv.style.display = "block";
-            } else {
-                errorDiv.style.display = "none";
-            }
-        });
-    });
-</script>
 </body>
 </html>

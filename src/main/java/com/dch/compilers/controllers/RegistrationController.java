@@ -32,6 +32,7 @@ public class RegistrationController {
 
 	@GetMapping("/auth/sign-up")
 	public String register(Model model) {
+		model.addAttribute("form", new RegistrationForm()); 
 		return "sign-up";
 	}
 
@@ -41,6 +42,7 @@ public class RegistrationController {
 		BindingResult bindingResult,
 		Model model,
     	HttpServletResponse response
+
 	) {
 		if (bindingResult.hasErrors()) {
         return "sign-up";
