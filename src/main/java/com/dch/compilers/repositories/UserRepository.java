@@ -36,4 +36,10 @@ public class UserRepository {
         }
 	}
 
+	public User findUserWithLocations(Long id) {
+		String jpql = "SELECT u FROM User u LEFT JOIN FETCH u.locations WHERE u.id = :id";
+		return entityManager.createQuery(jpql, User.class)
+			.setParameter("id", id)
+			.getSingleResult();
+	}
 }

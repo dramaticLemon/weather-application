@@ -1,5 +1,8 @@
 package com.dch.compilers.repositories;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,4 +23,13 @@ public class LocationRepository {
 		return location;
 	}
 	
+	public Optional<Location> findByCoordinate(double latitude, double longitude) {
+        String jpql = "SELECT l FROM Location l WHERE l.latitude = :lat AND l.longitude = :lon";
+        List<Location> result = entityManager.createQuery(jpql, Location.class)
+                .setParameter("lat", latitude)
+                .setParameter("lon", longitude)
+                .getResultList();
+
+        return result.stream().findFirst();
+    }
 }

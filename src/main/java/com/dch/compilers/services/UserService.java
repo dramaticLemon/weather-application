@@ -1,13 +1,20 @@
 package com.dch.compilers.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dch.compilers.dto.LocationDto;
 import com.dch.compilers.dto.UserDto;
+import com.dch.compilers.models.Location;
+import com.dch.compilers.models.Session;
 import com.dch.compilers.models.User;
+import com.dch.compilers.repositories.SessionRepository;
 import com.dch.compilers.repositories.UserRepository;
 import com.dch.compilers.util.PasswordHasher;
 
@@ -16,6 +23,12 @@ public class UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	LocationService locationService;
+	@Autowired
+	AuthService authService;
+	@Autowired
+	SessionRepository sessionRepository;
 
 	@Transactional
 	public User registerUser(UserDto userDto) {
@@ -41,6 +54,19 @@ public class UserService {
             throw new IllegalArgumentException("Uncorrect password."); 
         }
 		return user;
+	}
+
+
+	@Transactional
+	public List<Location> addLocationToUser(UUID sessinID, LocationDto locationDto) {
+		Optional<Session> session = sessionRepository.findById(sessinID);
+		User user = userRepository.findUserWithLocations(session.get().getUser().getUserId());
+
+		Location location = locationService.findOrCreateLocation(locationDto);
+		user.getLocations().add(location);
+		userRepository.save(user);
+
+		return new ArrayList<>(user.getLocations());
 	}
 
 	// @SuppressWarnings("unused")

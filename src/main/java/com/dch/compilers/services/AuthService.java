@@ -1,5 +1,8 @@
 package com.dch.compilers.services;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,15 @@ public class AuthService {
         Session userSession = sessionService.createOrUpdateSession(authenticatedUser);
 
         return userSession;
+    }
+
+
+    /*
+     * fetch current session user
+     */
+    public User getCurrentUser(UUID sessionID) {
+        Optional<Session> session = sessionService.findByUUID(String.valueOf(sessionID));
+        return session.get().getUser();
     }
 
 }

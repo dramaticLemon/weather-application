@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CityDto {
+public class LocationDto {
 	String name;
 
 	@JsonProperty("lat")
@@ -17,11 +17,11 @@ public class CityDto {
 
 	String state;
 
-	public CityDto() {
+	public LocationDto() {
 
 	}
 	
-	public CityDto(String name, Double latitude, String country, String state) {
+	public LocationDto(String name, Double latitude, String country, String state) {
 		this.name = name;
 		this.latitude = latitude;
 		this.country = country;

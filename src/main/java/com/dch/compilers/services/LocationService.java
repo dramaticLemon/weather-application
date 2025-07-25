@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.dch.compilers.dto.CityDto;
+import com.dch.compilers.dto.LocationDto;
 import com.dch.compilers.models.Location;
+import com.dch.compilers.models.User;
 import com.dch.compilers.repositories.LocationRepository;
 
 @Service
@@ -31,7 +32,7 @@ public class LocationService {
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
-	public List<CityDto> searchCity(String city) {
+	public List<LocationDto> searchCity(String city) {
 		URI uri = UriComponentsBuilder
                 .fromUri(URI.create(apiUrl))
                 .queryParam("q", city)
@@ -41,14 +42,28 @@ public class LocationService {
                 .encode()
                 .toUri();
 
-		ResponseEntity<CityDto[]> response = restTemplate.getForEntity(uri, CityDto[].class);
-        CityDto[] cityArray = response.getBody();
+		ResponseEntity<LocationDto[]> response = restTemplate.getForEntity(uri, LocationDto[].class);
+        LocationDto[] cityArray = response.getBody();
 
         return cityArray != null ? Arrays.asList(cityArray) : Collections.emptyList();
 	}
 	
-	public void saveLocation(CityDto cityDto) {
-		locationRepository.save(new Location());
+	public Location createLocation(String name, Double latitude, Double longitude) {
+		Location newLocation = new Location(name, latitude, longitude);
+		return locationRepository.save(newLocation);
 	}
+
+	public Location findOrCreateLocation(LocationDto locationDto) {
+        return locationRepository.findByCoordinate(locationDto.getLatitude(), locationDto.getLongitude())
+                .orElseGet(() -> {
+                    Location newLocation = new Location(locationDto.getName(), locationDto.getLatitude(), locationDto.getLongitude());
+                    return locationRepository.save(newLocation);
+                });
+    }
+
+	public List<Location> getAllLocationsForUser(User user) {
+		return null;
+	}
+
 
 }
