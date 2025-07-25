@@ -48,7 +48,7 @@ public class RegistrationController {
         return "sign-up";
 		}
 
-		if (!form.getPassword().equals(form.getRepeatPassword())) {
+		if (!form.getPassword().equals(form.getRepeatPassword())) { 
 			model.addAttribute("error", "Passwords don't match");
 			return "sign-up";
 		}

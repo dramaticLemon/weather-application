@@ -42,6 +42,7 @@ public class ApplicationConfig implements WebMvcConfigurer{
         return validator();
     }
 
+	@SuppressWarnings("null")
 	@Override
 	@NonNull
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

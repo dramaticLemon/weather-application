@@ -29,6 +29,7 @@ public class BaseJpaConfig {
 	@Autowired(required = false)
     protected Environment env;
 
+    @SuppressWarnings("null")
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName(env.getProperty("jdbc.driverClassName"));
