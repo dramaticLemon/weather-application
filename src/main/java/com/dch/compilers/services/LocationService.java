@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dch.compilers.dto.CityDto;
+import com.dch.compilers.models.Location;
+import com.dch.compilers.repositories.LocationRepository;
 
 @Service
-public class SearchCityService {
+public class LocationService {
+
+	@Autowired
+	private LocationRepository locationRepository;
 
 	@Value("${weather.api.url}")
 	private String apiUrl;
@@ -41,4 +47,8 @@ public class SearchCityService {
         return cityArray != null ? Arrays.asList(cityArray) : Collections.emptyList();
 	}
 	
+	public void saveLocation(CityDto cityDto) {
+		locationRepository.save(new Location());
+	}
+
 }

@@ -68,8 +68,11 @@ public class CityDto {
 		this.state = state;
 	}
 
-	
-
+	@Override
+	public String toString() {
+		return "CityDto [name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", country=" + country
+				+ ", state=" + state + "]";
+	}
 	
 	
 }
