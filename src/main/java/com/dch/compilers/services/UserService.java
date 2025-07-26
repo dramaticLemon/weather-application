@@ -48,14 +48,11 @@ public class UserService {
 	public User authenticateUser(String username, String rawPassword) {
 		Optional<User> userOptional = findByUserName(username);
 
-		if (userOptional.isEmpty()) {
-			throw new IllegalArgumentException("User not found.");
-		} 
-		User user =userOptional.get();
-		if (!PasswordHasher.checkPassword(rawPassword, user.getPassword())) {
-            throw new IllegalArgumentException("Uncorrect password."); 
-        }
-		return user;
+		if (userOptional.isEmpty() || 
+        !PasswordHasher.checkPassword(rawPassword, userOptional.get().getPassword())) {
+        throw new IllegalArgumentException("Username or password is incorrect");
+    }
+		return userOptional.get();
 	}
 
 
