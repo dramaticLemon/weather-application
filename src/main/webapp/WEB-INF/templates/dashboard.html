@@ -52,24 +52,24 @@
                 </div>
             </section>
  
-            <section class="container my-4" th:if="${cities == null or #list.isEmpty(cities)}">
+            <section class="container my-4" th:if="${cities == null or #lists.isEmpty(cities)}">
                 <h2>My location</h2>
-                <div class="row" th:if="${userLocations != null and not #list.isEmpty(userLocations)}">
-                    <div class="col-md-4 mb-3" th:each="location : ${userLocations}">
+                <div class="row" th:if="${userLocations != null and not #lists.isEmpty(userLocations)}">
+                    <div class="col-md-4 mb-3" th:each="location : ${weatherList}">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${location.cityName}">User Location Name</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">
                                     Temperature: <span th:text="${location.temperature} + '°C'"></span><br>
-                                    Desctiption: <span th:text="${location.description}"></span>
+                                    Description: <span th:text="${location.desctiption}"></span>
                                 </h6>
                                 <p class="card-text">
                                     <img th:src="@{'http://openweathermap.org/img/wn/' + ${location.icon} + '@2x.png'}" alt="Weather icon"/>
                                     Humidity: <span th:text="${location.humidity} + '%'"></span><br>
-                                    Wind spead: <span th:text="${location.windSpeed} + ' м/с'"></span>
+                                    Wind speed: <span th:text="${location.windSpeed} + ' м/с'"></span>
                                 </p>
                                 <form th:action="@{/remove-location}" method="post">
-                                    <input type="hidden" name="locationId" th:value="${location.id}" />
+                                    <input type="hidden" name="locationId" th:value="${location.uuid}" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </div>

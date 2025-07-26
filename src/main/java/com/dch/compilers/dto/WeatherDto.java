@@ -12,20 +12,20 @@ public class WeatherDto {
 	private double  feelsLike;
 	private String desctiption;
 	private String icon;
-	private int himidity;
+	private int humidity;
 	private double windSpeed;
 
 	public WeatherDto() {}
 	
 	public WeatherDto(String cityName, double temperature, double feelsLike, String desctiption, String icon,
-			int himidity, double windSpeed) {
+			int humidity, double windSpeed) {
 		this.uuid = UUID.randomUUID().toString();
 		this.cityName = cityName;
 		this.temperature = temperature;
 		this.feelsLike = feelsLike;
 		this.desctiption = desctiption;
 		this.icon = icon;
-		this.himidity = himidity;
+		this.humidity = humidity;
 		this.windSpeed = windSpeed;
 	}
 
@@ -34,7 +34,7 @@ public class WeatherDto {
     //     this.feelsLike = this.feelsLike - 273.15;
     // }
 	
-	public String getUUID() {
+	public String getUuid() {
 		return this.uuid;
 	}
 
@@ -78,12 +78,12 @@ public class WeatherDto {
 		this.icon = icon;
 	}
 
-	public int getHimidity() {
-		return himidity;
+	public int getHumidity() {
+		return humidity;
 	}
 
-	public void setHimidity(int himidity) {
-		this.himidity = himidity;
+	public void setHumidity(int humidity) {
+		this.humidity = humidity;
 	}
 
 	public double getWindSpeed() {
@@ -97,7 +97,7 @@ public class WeatherDto {
 	@Override
 	public String toString() {
 		return "WeatherDto [uuid=" + uuid + ", cityName=" + cityName + ", temperature=" + temperature + ", feelsLike="
-				+ feelsLike + ", desctiption=" + desctiption + ", icon=" + icon + ", himidity=" + himidity
+				+ feelsLike + ", desctiption=" + desctiption + ", icon=" + icon + ", himidity=" + humidity
 				+ ", windSpeed=" + windSpeed + "]";
 	}
 

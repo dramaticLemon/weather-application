@@ -53,7 +53,7 @@ public class LocationController {
 		List<Location> userLocations = userService.addLocationToUser(sessionId, locationDto);
 		log.info("User locations is {} ", userLocations);
 
-		return "dashboard";
+		return "redirect:/dashboard";
 	}
 	
 } 

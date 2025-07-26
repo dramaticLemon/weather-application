@@ -1,6 +1,5 @@
 package com.dch.compilers.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,14 +34,17 @@ public class HomePageConroller {
 
 	@GetMapping("/dashboard")
 	public String register(@CookieValue("SESSION_ID") UUID sessionId, Model model) {
-	
+		
+		// get current user and him locations
 		List<Location> userLocations = userService.getUserLocation(sessionId);
 
-		List<WeatherDto> listWeatherDtos = new ArrayList<>();
-		for (Location location : userLocations) {
-			listWeatherDtos.add(locationService.getWeatherInfo(location.getLatitude(), location.getLongitude()));
-		}
-		log.info("weather list dto: {} ", listWeatherDtos);
+		List<WeatherDto> weatherList = userLocations.stream()
+        .map(loc -> locationService.getWeatherInfo(loc.getLatitude(), loc.getLongitude()))
+        .toList();
+
+		log.info("weather list dto: {} ", weatherList);
+		model.addAttribute("userLocations", userLocations); 
+		model.addAttribute("weatherList", weatherList);   
         return "dashboard"; 
 	}
 }
