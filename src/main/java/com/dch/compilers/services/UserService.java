@@ -66,6 +66,7 @@ public class UserService {
 
 		Location location = locationService.findOrCreateLocation(locationDto);
 		user.getLocations().add(location);
+		location.getUsers().add(user);
 		userRepository.save(user);
 
 		return new ArrayList<>(user.getLocations());
