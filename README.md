@@ -33,7 +33,7 @@ A web application for viewing the current weather. Users can register, add one o
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone git@github.com:dramaticLemon/weather-application.git
     cd weather-application
     ```
 
