@@ -26,7 +26,8 @@ import io.micrometer.common.lang.NonNull;
 	"com.dch.compilers.controllers",
 	"com.dch.compilers.filters",
     "com.dch.compilers.services",
-    "com.dch.compilers.repositories"
+    "com.dch.compilers.repositories",
+	"com.dch.compilers.config"
 	}
 )
 @Import({JpaDevConfig.class, JpaProdConfig.class, JpaTestConfig.class, RedisConfig.class}) 

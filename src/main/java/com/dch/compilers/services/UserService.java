@@ -86,10 +86,12 @@ public class UserService {
 			user.getLocations().remove(location.get());
 			userRepository.save(user);
 			log.info("remove user location {}", location.get());
+			
+			// check if other user bind  this location and remove if condition
+			locationService.removeUnusedLocationsAsync(location.get());
 
 		}
 
-		// check if other user have this location 
 
 	}
 }

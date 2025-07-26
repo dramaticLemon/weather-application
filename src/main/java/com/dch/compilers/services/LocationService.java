@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,6 +24,8 @@ import com.dch.compilers.models.User;
 import com.dch.compilers.repositories.LocationRepository;
 import com.dch.compilers.util.meper.ApiWeatherResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -142,5 +145,17 @@ public class LocationService {
 
 	public Optional<Location> findByCoordinate(double latitude, double longitude) {
 		return locationRepository.findByCoordinate(latitude, longitude);
+	}
+
+	@Async
+	@Transactional
+	public void removeUnusedLocationsAsync(Location location) {
+		long count = locationRepository.countUsersWithLocationByCoordinate(location.getLatitude(), location.getLongitude());
+		if (count == 0) {
+			locationRepository.delete(location);
+			log.info("Removed unused location {}", location);
+		} else {
+			log.info("Location {} still used by {} users, not removing", location, count);
+		}
 	}
 }

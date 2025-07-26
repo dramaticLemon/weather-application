@@ -32,4 +32,18 @@ public class LocationRepository {
 
         return result.stream().findFirst();
     }
+
+	public long countUsersWithLocationByCoordinate(double latitude, double longitude) {
+		 String jpql = "SELECT COUNT(u) FROM User u JOIN u.locations l WHERE l.latitude = :lat AND l.longitude = :lon";
+		return entityManager.createQuery(jpql, Long.class)
+							.setParameter("lat", latitude)
+							.setParameter("lon", longitude)
+							.getSingleResult();
+	}
+
+	@Transactional
+	public void delete(Location location) {
+		Location managedLocation = entityManager.contains(location) ? location : entityManager.merge(location);
+		entityManager.remove(managedLocation);
+	}
 }
