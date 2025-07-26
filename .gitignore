@@ -89,3 +89,5 @@ nb-configuration.xml
 ##############################
 *.log
 applicaton.properties
+database-dev.properties
+databse-prod.properties
