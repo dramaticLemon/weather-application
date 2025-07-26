@@ -16,16 +16,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dch.compilers.dto.LocationDto;
 import com.dch.compilers.dto.WeatherDto;
+import com.dch.compilers.manager.RedisManager;
 import com.dch.compilers.models.Location;
 import com.dch.compilers.models.User;
 import com.dch.compilers.repositories.LocationRepository;
 import com.dch.compilers.util.meper.ApiWeatherResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
 public class LocationService {
 
 	private static final Logger log = LoggerFactory.getLogger(LocationService.class);
+
+	@Autowired
+    private RedisManager redisManager;
 
 	@Autowired
 	private LocationRepository locationRepository;
@@ -47,6 +52,7 @@ public class LocationService {
 
 
 	private final RestTemplate restTemplate = new RestTemplate();
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	public List<LocationDto> searchCity(String city) {
 		URI uri = UriComponentsBuilder
@@ -82,6 +88,17 @@ public class LocationService {
 	}
 
 	public WeatherDto getWeatherInfo(double lat, double lon) {
+		String key = "weather:" + lat + ":" + lon;
+
+		try {
+            String cached = redisManager.get(key);
+            if (cached != null) {
+                return mapper.readValue(cached, WeatherDto.class);
+            }
+        } catch (Exception e) {
+            log.debug("cashing: {}", key);
+        }
+
 		URI uri = UriComponentsBuilder
                 .fromUri(URI.create(apiUrlGetWeahterInfo))
                 .queryParam("lat", lat)
@@ -100,7 +117,7 @@ public class LocationService {
 			throw new RuntimeException("Invalid weather data");
 		}
 
-		return new WeatherDto(
+		WeatherDto weatherDto = new WeatherDto(
 			body.getName(),
 			body.getMain().getTemp(),
 			body.getMain().getFeels_like(),
@@ -109,6 +126,14 @@ public class LocationService {
 			body.getMain().getHumidity(),
 			body.getWind().getSpeed()
 		);
+
+		try {
+			String json = mapper.writeValueAsString(weatherDto);
+			redisManager.set(key, json, 1200);
+		} catch (Exception e) {
+			log.warn("serialization error {}", e);
+		}
+		return weatherDto;
 
 	}
 

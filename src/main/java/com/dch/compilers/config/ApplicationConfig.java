@@ -29,7 +29,7 @@ import io.micrometer.common.lang.NonNull;
     "com.dch.compilers.repositories"
 	}
 )
-@Import({JpaDevConfig.class, JpaProdConfig.class, JpaTestConfig.class}) 
+@Import({JpaDevConfig.class, JpaProdConfig.class, JpaTestConfig.class, RedisConfig.class}) 
 public class ApplicationConfig implements WebMvcConfigurer{
 	
 	@Bean

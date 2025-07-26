@@ -31,6 +31,14 @@ services:
     networks:
       - weather-app-network
 
+  redis-service:
+    image: redis:7
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    networks:
+      - weather-app-network
+      
   app-service:
     build: .
     container_name: application-container
