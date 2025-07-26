@@ -52,7 +52,7 @@ A web application for viewing the current weather. Users can register, add one o
     Fill application.properties:
     - `session.expire.hours`
     - `logging.level.com.dch.compilers`
-    - `logging.level.org.springframework
+    - `logging.level.org.springframework`
     - `logging.level.org.hibernate.SQL`
     - `logging.level.org.hibernate.orm.jdbc.bind`
     - `spring.profiles.active`
