@@ -92,4 +92,4 @@ applicaton.properties
 database-dev.properties
 databse-prod.properties
 .env
-flyway.conf
+flyway-conf/flyway.conf
