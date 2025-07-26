@@ -91,3 +91,4 @@ nb-configuration.xml
 applicaton.properties
 database-dev.properties
 databse-prod.properties
+.env

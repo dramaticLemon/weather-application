@@ -3,17 +3,17 @@ services:
     image: postgres:16
     container_name: postgres-container
     environment:
-      POSTGRES_DB: app-database
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - weather-app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d app-database"] 
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -22,10 +22,10 @@ services:
     image: dpage/pgadmin4
     container_name: pgadmin-container
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "8081:80"
+      - "${PGADMIN_PORT}:80"
     depends_on:
       - postgres-service
     networks:
@@ -35,15 +35,15 @@ services:
     image: redis:7
     container_name: redis-container
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
     networks:
       - weather-app-network
-      
+
   app-service:
     build: .
     container_name: application-container
     ports:
-      - "8080:8080"
+      - "${APP_PORT}:8080"
     depends_on:
       - postgres-service
     networks:
@@ -63,6 +63,7 @@ services:
 
 volumes:
   pgdata:
+
 networks:
   weather-app-network:
     driver: bridge

@@ -38,19 +38,19 @@ test:
 
 run: build up
 
-# flyway commands
-# запустить миграции
+
+
 flyway-migrate:
 	docker-compose run --rm flyway-migration-service migrate
-# очистить базу данных
+
 flyway-clean:
 	docker-compose run --rm flyway-migration-service clean
-# показать статус миграций
+
 flyway-info:
 	docker-compose run --rm flyway-migration-service info
-# проверить корекность миграций
+
 flyway-validate:
 	docker-compose run --rm flyway-migration-service validate
-# создать базовую точку
+
 flyway-baseline:
-	docker-compose run --rm flyway-migration-service baseline
+	docker-compose run --rm flyway-migration-service baseline 
