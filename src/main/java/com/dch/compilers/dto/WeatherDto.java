@@ -14,11 +14,13 @@ public class WeatherDto {
 	private String icon;
 	private int humidity;
 	private double windSpeed;
+	private double latitude;
+	private double longitude;
 
 	public WeatherDto() {}
 	
 	public WeatherDto(String cityName, double temperature, double feelsLike, String desctiption, String icon,
-			int humidity, double windSpeed) {
+			int humidity, double windSpeed, double latitude, double longitude) {
 		this.uuid = UUID.randomUUID().toString();
 		this.cityName = cityName;
 		this.temperature = temperature;
@@ -27,12 +29,9 @@ public class WeatherDto {
 		this.icon = icon;
 		this.humidity = humidity;
 		this.windSpeed = windSpeed;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
-
-	// public void convertTemperaturesToCelsius() {
-    //     this.temperature = this.temperature - 273.15;
-    //     this.feelsLike = this.feelsLike - 273.15;
-    // }
 	
 	public String getUuid() {
 		return this.uuid;
@@ -99,6 +98,34 @@ public class WeatherDto {
 		return "WeatherDto [uuid=" + uuid + ", cityName=" + cityName + ", temperature=" + temperature + ", feelsLike="
 				+ feelsLike + ", desctiption=" + desctiption + ", icon=" + icon + ", himidity=" + humidity
 				+ ", windSpeed=" + windSpeed + "]";
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public double getFeelsLike() {
+		return feelsLike;
+	}
+
+	public void setFeelsLike(double feelsLike) {
+		this.feelsLike = feelsLike;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	

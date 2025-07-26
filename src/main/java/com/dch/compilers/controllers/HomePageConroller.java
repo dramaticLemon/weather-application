@@ -35,7 +35,6 @@ public class HomePageConroller {
 	@GetMapping("/dashboard")
 	public String register(@CookieValue("SESSION_ID") UUID sessionId, Model model) {
 		
-		// get current user and him locations
 		List<Location> userLocations = userService.getUserLocation(sessionId);
 
 		List<WeatherDto> weatherList = userLocations.stream()

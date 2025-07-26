@@ -55,5 +55,15 @@ public class LocationController {
 
 		return "redirect:/dashboard";
 	}
+
+	@PostMapping("/remove-location")
+	public String removeLocation(
+			@RequestParam("latitude") double latitude,
+			@RequestParam("longitude") double longitude,
+			@CookieValue("SESSION_ID") UUID sessionId) {
+
+		userService.removeLocationForUser(sessionId, latitude, longitude);
+		return "redirect:/dashboard";
+	}
 	
 } 

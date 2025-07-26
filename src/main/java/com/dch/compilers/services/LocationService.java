@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,7 +125,9 @@ public class LocationService {
 			body.getWeather().get(0).getDescription(),
 			body.getWeather().get(0).getIcon(),
 			body.getMain().getHumidity(),
-			body.getWind().getSpeed()
+			body.getWind().getSpeed(),
+			lat,
+			lon
 		);
 
 		try {
@@ -137,4 +140,7 @@ public class LocationService {
 
 	}
 
+	public Optional<Location> findByCoordinate(double latitude, double longitude) {
+		return locationRepository.findByCoordinate(latitude, longitude);
+	}
 }

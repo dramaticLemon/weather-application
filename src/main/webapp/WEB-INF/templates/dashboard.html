@@ -69,7 +69,8 @@
                                     Wind speed: <span th:text="${location.windSpeed} + ' м/с'"></span>
                                 </p>
                                 <form th:action="@{/remove-location}" method="post">
-                                    <input type="hidden" name="locationId" th:value="${location.uuid}" />
+                                    <input type="hidden" name="latitude" th:value="${location.latitude}" />
+                                    <input type="hidden" name="longitude" th:value="${location.longitude}" />
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </div>

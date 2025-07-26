@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +23,12 @@ import com.dch.compilers.util.PasswordHasher;
 @Service
 public class UserService {
 	
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
 	LocationService locationService;
-	@Autowired
-	AuthService authService;
 	@Autowired
 	SessionRepository sessionRepository;
 
@@ -73,5 +75,21 @@ public class UserService {
 		Optional<Session> session = sessionRepository.findById(sessionID);
 		User user = userRepository.findUserWithLocations(session.get().getUser().getUserId());
 		return new ArrayList<>(user.getLocations());
+	}
+
+	@Transactional
+	public void removeLocationForUser(UUID sessionID, double latitude, double longitude) {
+		Optional<Session> session = sessionRepository.findById(sessionID);
+		User user = userRepository.findUserWithLocations(session.get().getUser().getUserId());
+		Optional<Location> location = locationService.findByCoordinate(latitude, longitude);
+		if (location.isPresent() && user != null) {
+			user.getLocations().remove(location.get());
+			userRepository.save(user);
+			log.info("remove user location {}", location.get());
+
+		}
+
+		// check if other user have this location 
+
 	}
 }
