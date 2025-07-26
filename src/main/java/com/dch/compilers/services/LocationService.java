@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -13,22 +15,36 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dch.compilers.dto.LocationDto;
+import com.dch.compilers.dto.WeatherDto;
 import com.dch.compilers.models.Location;
 import com.dch.compilers.models.User;
 import com.dch.compilers.repositories.LocationRepository;
+import com.dch.compilers.util.meper.ApiWeatherResponse;
+
 
 @Service
 public class LocationService {
+
+	private static final Logger log = LoggerFactory.getLogger(LocationService.class);
 
 	@Autowired
 	private LocationRepository locationRepository;
 
 	@Value("${weather.api.url}")
 	private String apiUrl;
+
 	@Value("${weather.api.key}")
 	private String apiKey;
+
 	@Value("${weather.api.limit}")
 	private int limit;
+
+	@Value("${weather.api.url.getWeather}")
+	private String apiUrlGetWeahterInfo;
+
+	@Value("${weather.api.units}")
+	private String units;
+
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
@@ -65,5 +81,35 @@ public class LocationService {
 		return null;
 	}
 
+	public WeatherDto getWeatherInfo(double lat, double lon) {
+		URI uri = UriComponentsBuilder
+                .fromUri(URI.create(apiUrlGetWeahterInfo))
+                .queryParam("lat", lat)
+                .queryParam("lon", lon)
+                .queryParam("appid", apiKey) 
+				.queryParam("units", units)
+                .build()
+                .encode()
+                .toUri();
+
+
+		ResponseEntity<ApiWeatherResponse> response = restTemplate.getForEntity(uri, ApiWeatherResponse.class);
+		ApiWeatherResponse body = response.getBody();
+
+		if (body == null || body.getWeather() == null || body.getWeather().isEmpty()) {
+			throw new RuntimeException("Invalid weather data");
+		}
+
+		return new WeatherDto(
+			body.getName(),
+			body.getMain().getTemp(),
+			body.getMain().getFeels_like(),
+			body.getWeather().get(0).getDescription(),
+			body.getWeather().get(0).getIcon(),
+			body.getMain().getHumidity(),
+			body.getWind().getSpeed()
+		);
+
+	}
 
 }

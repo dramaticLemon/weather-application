@@ -58,8 +58,8 @@ public class UserService {
 
 
 	@Transactional
-	public List<Location> addLocationToUser(UUID sessinID, LocationDto locationDto) {
-		Optional<Session> session = sessionRepository.findById(sessinID);
+	public List<Location> addLocationToUser(UUID sessionID, LocationDto locationDto) {
+		Optional<Session> session = sessionRepository.findById(sessionID);
 		User user = userRepository.findUserWithLocations(session.get().getUser().getUserId());
 
 		Location location = locationService.findOrCreateLocation(locationDto);
@@ -69,13 +69,9 @@ public class UserService {
 		return new ArrayList<>(user.getLocations());
 	}
 
-	// @SuppressWarnings("unused")
-	// private UserDto maptoUserDto(User user) {
-	// 	UserDto userDto = new UserDto.Builder()
-	// 		.id(user.getUserId())
-	// 		.username(user.getUsername())
-	// 		.password(user.getPassword())
-	// 		.build();
-	// 	return userDto;
-	// }
+	public List<Location> getUserLocation(UUID sessionID) {
+		Optional<Session> session = sessionRepository.findById(sessionID);
+		User user = userRepository.findUserWithLocations(session.get().getUser().getUserId());
+		return new ArrayList<>(user.getLocations());
+	}
 }
