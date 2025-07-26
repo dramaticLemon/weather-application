@@ -49,6 +49,38 @@ A web application for viewing the current weather. Users can register, add one o
     - `REDIS_PORT`
     - `APP_PORT`
 
+    Fill application.properties:
+    - `session.expire.hours`
+    - `logging.level.com.dch.compilers`
+    - `logging.level.org.springframework
+    - `logging.level.org.hibernate.SQL`
+    - `logging.level.org.hibernate.orm.jdbc.bind`
+    - `spring.profiles.active`
+
+    - `weather.api.url`
+    - `weather.api.url.getWeather`
+    - `weather.api.key`
+    - `weather.api.limit`
+    - `weather.api.units`
+
+    - `redis.host`
+    - `redis.port`
+
+    Fill database.properties:
+    - `jdbc.driverClassName`
+    - `jdbc.url`
+    - `app-database`
+    - `jdbc.username`
+    - `jdbc.password`
+
+    Fill flyway-conf.properties:
+    - `flyway.url`
+    - `flyway.locations`
+    - `flyway.user`
+    - `flyway.password`
+    - `flyway.validateMigrationNaming`
+    - `flyway.cleanDisabled`
+    
 3.  **Build and run the application:**
     The easiest way to get started is by using the provided `Makefile` and Docker Compose. This command will build the Java application and then start all the necessary services (application, database, Redis).
 
